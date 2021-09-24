@@ -1,21 +1,40 @@
 package com.exasol.challenge.pokerHands;
 
-public enum HandRank {
+public class HandRank {
 
-    HIGH_CARD((byte)0),
-    ONE_PAIR((byte)1),
-    TWO_PAIRS((byte)2),
-    THREE_OF_A_KIND((byte)3),
-    STRAIGHT((byte)4),
-    FLUSH((byte)5),
-    FULL_HOUSE((byte)6),
-    FOUR_OF_A_KIND((byte)7),
-    STRAIGHT_FLUSH((byte)8),
-    ROYAL_FLUSH((byte)9);
+    public enum HandRankValue {
 
-    private byte value;
+        HIGH_CARD(0),
+        ONE_PAIR(1000),
+        TWO_PAIRS(2000),
+        THREE_OF_A_KIND(3000),
+        STRAIGHT(4000),
+        FLUSH(5000),
+        FULL_HOUSE(6000),
+        FOUR_OF_A_KIND(7000),
+        STRAIGHT_FLUSH(8000),
+        ROYAL_FLUSH(9000);
 
-    HandRank(byte value) {
-        this.value = value;
+        private int value;
+
+        HandRankValue(int value) {
+            this.value = value;
+        }
+    }
+
+    private HandRankValue handRankValue;
+    private CardRank handType;
+    private CardRank highestCard;
+
+    public HandRank(HandRankValue handRankValue, CardRank handType, CardRank highestCard) {
+        this.handRankValue = handRankValue;
+        this.handType = handType;
+        this.highestCard = highestCard;
+    }
+
+    public HandRank(HandRankValue handRankValue, CardRank handType) {
+        this.handRankValue = handRankValue;
+        this.handType = handType;
+        this.highestCard = null;
     }
 }

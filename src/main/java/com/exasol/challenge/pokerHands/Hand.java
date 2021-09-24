@@ -5,4 +5,7 @@ public class Hand implements Comparable<Integer> {
     public int compareTo(Integer o) {
         return 0;
     }
+
+
+
 }

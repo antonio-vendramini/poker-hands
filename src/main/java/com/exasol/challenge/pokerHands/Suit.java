@@ -2,5 +2,15 @@ package com.exasol.challenge.pokerHands;
 
 public enum Suit {
 
-    CLUBS, DIAMONDS, HEARTS, SPADES
+    CLUBS('C'),
+    DIAMONDS('D'),
+    HEARTS('H'),
+    SPADES('S');
+
+    private char value;
+
+    Suit(char value){
+        this.value = value;
+    }
+
 }

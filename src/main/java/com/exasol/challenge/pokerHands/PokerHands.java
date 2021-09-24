@@ -1,25 +1,26 @@
 package com.exasol.challenge.pokerHands;
 
-class PokerHands{
+import java.util.ArrayList;
+import java.util.List;
 
-    // Código del controlador
-    public static void main(String[] args)
-    {
-        // Array from 0 to 51
-        int a[] = {0, 1, 2, 3, 4, 5, 6, 7, 8,
-                9, 10, 11, 12, 13, 14, 15,
-                16, 17, 18, 19, 20, 21, 22,
-                23, 24, 25, 26, 27, 28, 29,
-                30, 31, 32, 33, 34, 35, 36,
-                37, 38, 39, 40, 41, 42, 43,
-                44, 45, 46, 47, 48, 49, 50,
-                51};
+class PokerHands {
 
-        shuffle(a, 52);
+    public static void main(String[] args) {
 
-        // Imprimir todos los elementos barajados de las cartas
-        for (int i = 0; i < 52; i ++)
-            System.out.print(a+" ");
+        if (args == null || args.length < 2) {
+            System.out.println("The minimun number of players in the poker game is 2");
+        }
+
+        System.out.println("Ranking:");
+
+        List<CardHand> cardsHands = new ArrayList<>();
+        for (int i = 0; i < args.length; i++) {
+            cardsHands.add(new CardHand(args[i]));
+//            System.out.println("Player " + (i + 1) + " " + args[i]);
+        }
+
+
+
 
     }
 
