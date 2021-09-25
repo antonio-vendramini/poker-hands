@@ -2,42 +2,30 @@ package com.exasol.challenge.pokerHands;
 
 public class Card implements Comparable<Card> {
 
-    private char value;
-    private char suit;
+    private CardRank cardRank;
+    private Suit suit;
 
     Card(char[] card){
-        this.value = card[0];
-        this.suit = card[1];
+        this.cardRank = CardRank.get(card[0]);
+        this.suit = Suit.get(card[1]);
     }
 
-    public Card() {
-
+    public CardRank getCardRank() {
+        return cardRank;
     }
 
-    public char getValue() {
-        return value;
-    }
-
-    public void setValue(char value) {
-        this.value = value;
-    }
-
-    public char getSuit() {
+    public Suit getSuit() {
         return suit;
-    }
-
-    public void setSuit(char suit) {
-        this.suit = suit;
     }
 
     @Override
     public int compareTo(Card o) {
-        return Character.compare(this.getValue(), o.getValue());
+        return Integer.compare(this.getCardRank().ordinal(), o.getCardRank().ordinal());
     }
 
     @Override
     public String toString() {
-        return "" + value + suit;
+        return "" + cardRank.getValue() + suit.getValue();
     }
 
 }

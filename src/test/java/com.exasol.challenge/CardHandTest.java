@@ -1,20 +1,37 @@
 package com.exasol.challenge;
 
 import com.exasol.challenge.pokerHands.CardHand;
+import com.exasol.challenge.pokerHands.CardRank;
 import com.exasol.challenge.pokerHands.HandRank;
+import com.exasol.challenge.pokerHands.Suit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-//import org.assertj.core.api.Assertions;
 
 public class CardHandTest{
 
+    @Test
+    public void shouldClassifyAsFourOfAKind(){
+        classifyByRankAndType("2S 2H 2D 2C 7D", HandRank.HandRankValue.FOUR_OF_A_KIND, CardRank.TWO.getValue());
+        classifyByRankAndType("7D 2S 2H 2D 2C", HandRank.HandRankValue.FOUR_OF_A_KIND, CardRank.TWO.getValue());
+        classifyByRankAndType("AD AS 2S AH AC", HandRank.HandRankValue.FOUR_OF_A_KIND, CardRank.ACE.getValue());
+    }
 
     @Test
-    public void shouldCompareFourOfAKindTest(){
-        CardHand cardHand = new CardHand(1, "2S 2S 2S 2S 7D");
+    public void shouldClassifyAsRoyalFlush(){
+        classifyByRankAndType("JD AD TD KD QD", HandRank.HandRankValue.ROYAL_FLUSH, Suit.DIAMONDS.getValue());
+    }
+
+    @Test
+    public void shouldNotClassifyAsRoyalFlush(){
+        classifyByRankAndType("JS AD TD KD QD", HandRank.HandRankValue.HIGH_CARD, CardRank.ACE.getValue());
+    }
+
+    private void classifyByRankAndType(String handString, HandRank.HandRankValue expectedHandRankValue, char expectedType){
+        CardHand cardHand = new CardHand(1, handString);
         HandRank handRank = cardHand.getRank();
 
-        Assertions.assertEquals(HandRank.HandRankValue.FOUR_OF_A_KIND, handRank.getHandRankValue());
+        Assertions.assertEquals(expectedHandRankValue, handRank.getHandRankValue());
+        Assertions.assertEquals(expectedType, handRank.getHandType()[0]);
     }
 
 }

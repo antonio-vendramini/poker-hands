@@ -63,27 +63,29 @@ public class CardHand implements Comparable<CardHand> {
     }
 
     private HandRank calculateHandRank(List<Card> cards) {
-        SortedMap<Character, Integer> valuesCount = new TreeMap<>();
-        Map<Character, Integer> suitsCount = new HashMap<>();
+        SortedMap<CardRank, Integer> valuesCount = new TreeMap<>();
+        Map<Suit, Integer> suitsCount = new HashMap<>();
         cards.forEach(card -> {
-            valuesCount.put(card.getValue(), valuesCount.getOrDefault(card.getValue(), 0) + 1);
+            valuesCount.put(card.getCardRank(), valuesCount.getOrDefault(card.getCardRank(), 0) + 1);
             suitsCount.put(card.getSuit(), suitsCount.getOrDefault(card.getSuit(), 0) + 1);
         });
 
-        if (suitsCount.size() == 1 && cards.get(0).getValue() == CardRank.TEN.getValue()) {
-            return new HandRank(HandRank.HandRankValue.ROYAL_FLUSH, cards.get(0).getValue(), cards.get(0).getValue());
+        Card highestCard = cards.get(cards.size() - 1);
+        if (suitsCount.size() == 1 && cards.get(0).getCardRank() == CardRank.TEN) {
+            return new HandRank(HandRank.HandRankValue.ROYAL_FLUSH, cards.get(0).getSuit().getValue(),
+                    highestCard.getCardRank().getValue());
         }
 
-        boolean areConsecutiveValues = cards.get(0).getValue() + cards.size() - 1 == cards.get(cards.size() - 1).getValue();
-        Card highestCard = cards.get(cards.size() - 1);
+        boolean areConsecutiveValues = cards.get(0).getCardRank().getValue() + cards.size() - 1 == cards.get(cards.size() - 1).getCardRank().getValue();
 
         if (areConsecutiveValues && suitsCount.size() == 1) {
-            return new HandRank(HandRank.HandRankValue.STRAIGHT_FLUSH, highestCard.getSuit(), highestCard.getValue());
+            return new HandRank(HandRank.HandRankValue.STRAIGHT_FLUSH, highestCard.getSuit().getValue(),
+                    highestCard.getCardRank().getValue());
         }
 
-        if (suitsCount.size() == 2 && suitsCount.containsValue(4)) {
+        if (valuesCount.size() == 2 && valuesCount.containsValue(4)) {
             return new HandRank(HandRank.HandRankValue.FOUR_OF_A_KIND,
-                    calculateHandType(suitsCount, 4));
+                    calculateHandType(valuesCount, 4));
         }
 
         if (suitsCount.size() == 2 && suitsCount.containsValue(3)) {
@@ -92,11 +94,11 @@ public class CardHand implements Comparable<CardHand> {
         }
 
         if (!areConsecutiveValues && suitsCount.size() == 1) {
-            return new HandRank(HandRank.HandRankValue.FLUSH, highestCard.getSuit());
+            return new HandRank(HandRank.HandRankValue.FLUSH, highestCard.getSuit().getValue());
         }
 
         if (areConsecutiveValues) {
-            return new HandRank(HandRank.HandRankValue.STRAIGHT, highestCard.getValue());
+            return new HandRank(HandRank.HandRankValue.STRAIGHT, highestCard.getCardRank().getValue());
         }
 
         if (suitsCount.containsValue(3)) {
@@ -119,37 +121,37 @@ public class CardHand implements Comparable<CardHand> {
                     handTypeAndHighestCard[1]);
         }
 
-        if (suitsCount.size() == 5 && valuesCount.size() == 5) {
-            return new HandRank(HandRank.HandRankValue.HIGH_CARD, highestCard.getValue());
+        if (valuesCount.size() == 5) {
+            return new HandRank(HandRank.HandRankValue.HIGH_CARD, highestCard.getCardRank().getValue());
         }
 
         throw new PokerHandException("Unable to calculate the hand rank of this one :" + cards);
     }
 
-    private char calculateHandType(Map<Character, Integer> valuesCount, int indexOfHandType) {
+    private char calculateHandType(Map<CardRank, Integer> valuesCount, int indexOfHandType) {
         for (var entry : valuesCount.entrySet()) {
             if (entry.getValue() == indexOfHandType) {
-                return entry.getKey();
+                return entry.getKey().getValue();
             }
         }
         return 0;
     }
 
-    private char[] calculateHandTypeAndHighestCardOnePair(Map<Character, Integer> valuesCount) {
+    private char[] calculateHandTypeAndHighestCardOnePair(Map<CardRank, Integer> valuesCount) {
         char[] cards = new char[2];
         for (var entry : valuesCount.entrySet()) {
-            cards[entry.getValue() == 2 ? 0 : 1] = entry.getKey();
+            cards[entry.getValue() == 2 ? 0 : 1] = entry.getKey().getValue();
         }
         return cards;
     }
 
-    private char[] calculateHandTypeAndHighestCardTwoPairs(Map<Character, Integer> valuesCount) {
+    private char[] calculateHandTypeAndHighestCardTwoPairs(Map<CardRank, Integer> valuesCount) {
         char[] cards = new char[3];
         for (var entry : valuesCount.entrySet()) {
             if (entry.getValue() == 1) {
-                cards[2] = entry.getKey();
+                cards[2] = entry.getKey().getValue();
             } else {
-                cards[cards[0] == 0 ? 0 : 1] = entry.getKey();
+                cards[cards[0] == 0 ? 0 : 1] = entry.getKey().getValue();
             }
         }
         return cards;
