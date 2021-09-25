@@ -19,11 +19,11 @@ public enum CardRank{
     KING((byte)13, 'K'),
     ACE((byte)14, 'A');
 
-    private byte order;
+    private byte number;
     private char value;
 
-    CardRank(byte order, char value) {
-        this.order = order;
+    CardRank(byte number, char value) {
+        this.number = number;
         this.value = value;
     }
 
@@ -39,12 +39,11 @@ public enum CardRank{
         }
     }
 
-    private CardRank(char value) {
-        this.value = value;
-    }
-
     public static CardRank get(char value) {
         return lookup.get(value);
     }
 
+    public byte getNumber() {
+        return number;
+    }
 }

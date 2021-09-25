@@ -24,7 +24,7 @@ class PokerHands {
         System.out.println("Ranking:");
         for (int i=1; i<=cardsHands.size(); i++) {
             CardHand cardHand =cardsHands.get(i-1);
-            System.out.println("        " + i + "     Player " + cardHand.getPlayerNumber() + "    " + cardHand  + "     " + cardHand.getRank().getHandRankValue().name() + ", " + cardHand.getRank().getHandType());
+            System.out.println("        " + i + "     Player " + cardHand.getPlayerNumber() + "    " + cardHand  + "     " + cardHand.getRank().getHandRankValue().name() + ", " + cardHand.getRank().getHandValuableCards());
         }
         System.out.println("Player " + cardsHands.get(0).getPlayerNumber() + " wins.");
 

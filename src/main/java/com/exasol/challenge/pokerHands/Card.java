@@ -10,6 +10,10 @@ public class Card implements Comparable<Card> {
         this.suit = Suit.get(card[1]);
     }
 
+    Card(char card){
+        this.cardRank = CardRank.get(card);
+    }
+
     public CardRank getCardRank() {
         return cardRank;
     }

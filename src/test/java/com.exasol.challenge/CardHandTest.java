@@ -17,6 +17,12 @@ public class CardHandTest{
     }
 
     @Test
+    public void shouldClassifyAsStraightFlush(){
+        classifyByRankAndType("2D 3D 4D 5D 6D", HandRank.HandRankValue.STRAIGHT_FLUSH, CardRank.SIX.getValue());
+//        classifyByRankAndType("2D 3D 4S 5D 6D", HandRank.HandRankValue.FOUR_OF_A_KIND, CardRank.TWO.getValue());
+    }
+
+    @Test
     public void shouldClassifyAsRoyalFlush(){
         classifyByRankAndType("JD AD TD KD QD", HandRank.HandRankValue.ROYAL_FLUSH, Suit.DIAMONDS.getValue());
     }
@@ -31,7 +37,7 @@ public class CardHandTest{
         HandRank handRank = cardHand.getRank();
 
         Assertions.assertEquals(expectedHandRankValue, handRank.getHandRankValue());
-        Assertions.assertEquals(expectedType, handRank.getHandType()[0]);
+        Assertions.assertEquals(expectedType, handRank.getHandValuableCards()[0]);
     }
 
 }

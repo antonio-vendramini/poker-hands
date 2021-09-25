@@ -4,54 +4,108 @@ public class HandRank {
 
     public enum HandRankValue {
 
-        HIGH_CARD("Highest card"),
-        ONE_PAIR("One pair"),
-        TWO_PAIRS("Two pairs"),
-        THREE_OF_A_KIND("Three of a kind"),
-        STRAIGHT("Straight"),
-        FLUSH("Flush"),
-        FULL_HOUSE("Full house"),
-        FOUR_OF_A_KIND("Four of a kind"),
-        STRAIGHT_FLUSH("Straight flush"),
-        ROYAL_FLUSH("Royal Flush");
+        HIGH_CARD("Highest card", 0),
+        ONE_PAIR("One pair", 1),
+        TWO_PAIRS("Two pairs", 2),
+        THREE_OF_A_KIND("Three of a kind", 3),
+        STRAIGHT("Straight", 4),
+        FLUSH("Flush", 5),
+        FULL_HOUSE("Full house", 6),
+        FOUR_OF_A_KIND("Four of a kind", 7),
+        STRAIGHT_FLUSH("Straight flush", 8),
+        ROYAL_FLUSH("Royal Flush", 9);
 
         private String description;
+        private int order;
 
-        HandRankValue(String description) {
+        HandRankValue(String description, int order) {
             this.description = description;
+            this.order = order;
         }
 
         public String getDescription() {
             return description;
         }
+
+        public int getOrder() {
+            return order;
+        }
     }
 
     private HandRankValue handRankValue;
-    private char[] handType;
-    private char highestCard;
+    private Card[] handValuableCards;
+    private Card highestCard;
 
-    public HandRank(HandRankValue handRankValue, char[] handType, char highestCard) {
-        this.handRankValue = handRankValue;
-        this.handType = handType;
-        this.highestCard = highestCard;
+    public static HandRank getHandRankForRoyalFlush(Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.ROYAL_FLUSH);
+        handRank.setHighestCard(highestCard);
+        return handRank;
     }
 
-    public HandRank(HandRankValue handRankValue, char handType, char highestCard) {
-        this.handRankValue = handRankValue;
-        this.handType = new char[] { handType };
-        this.highestCard = highestCard;
+    public static HandRank getHandRankForStraightFlush(Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.STRAIGHT_FLUSH);
+        handRank.setHighestCard(highestCard);
+        return handRank;
     }
 
-    public HandRank(HandRankValue handRankValue, char[] handType) {
-        this.handRankValue = handRankValue;
-        this.handType = handType;
-        this.highestCard = 0;
+    public static HandRank getHandRankForFourOfAKind(Card valuableCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.FOUR_OF_A_KIND);
+        handRank.setHandValuableCards(new Card[]{valuableCard});
+        return handRank;
     }
 
-    public HandRank(HandRankValue handRankValue, char handType) {
-        this.handRankValue = handRankValue;
-        this.handType = new char[] { handType };
-        this.highestCard = 0;
+    public static HandRank getHandRankForFullHouse(Card valuableCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.THREE_OF_A_KIND);
+        handRank.setHandValuableCards(new Card[]{valuableCard});
+        return handRank;
+    }
+
+    public static HandRank getHandRankForFlush(Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.FLUSH);
+        handRank.setHighestCard(highestCard);
+        return handRank;
+    }
+
+    public static HandRank getHandRankForStraight(Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.STRAIGHT);
+        handRank.setHighestCard(highestCard);
+        return handRank;
+    }
+
+    public static HandRank getHandRankForThreeOfAKind(Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.THREE_OF_A_KIND);
+        handRank.setHighestCard(highestCard);
+        return handRank;
+    }
+
+    public static HandRank getHandRankForTwoPairs(Card[] handValuableCards, Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.TWO_PAIRS);
+        handRank.setHandValuableCards(handValuableCards);
+        handRank.setHighestCard(highestCard);
+        return handRank;
+    }
+
+    public static HandRank getHandRankForOnePair(Card handValuableCards, Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.ONE_PAIR);
+        handRank.setHandValuableCards(new Card[]{handValuableCards});
+        handRank.setHighestCard(highestCard);
+        return handRank;
+    }
+
+    public static HandRank getHandRankForHighCard(Card highestCard) {
+        HandRank handRank = new HandRank();
+        handRank.setHandRankValue(HandRankValue.HIGH_CARD);
+        handRank.setHighestCard(highestCard);
+        return handRank;
     }
 
     public HandRankValue getHandRankValue() {
@@ -62,19 +116,20 @@ public class HandRank {
         this.handRankValue = handRankValue;
     }
 
-    public char[] getHandType() {
-        return handType;
+    public Card[] getHandValuableCards() {
+        return handValuableCards;
     }
 
-    public void setHandType(char[] handType) {
-        this.handType = handType;
+    public void setHandValuableCards(Card[] handValuableCards) {
+        this.handValuableCards = handValuableCards;
     }
 
-    public char getHighestCard() {
+    public Card getHighestCard() {
         return highestCard;
     }
 
-    public void setHighestCard(char highestCard) {
+    public void setHighestCard(Card highestCard) {
         this.highestCard = highestCard;
     }
+
 }

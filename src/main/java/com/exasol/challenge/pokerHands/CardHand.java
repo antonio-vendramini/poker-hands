@@ -17,14 +17,6 @@ public class CardHand implements Comparable<CardHand> {
     private List<Card> cards;
     private HandRank rank;
 
-    public List<Card> getCards() {
-        return cards;
-    }
-
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-
     public int getPlayerNumber() {
         return playerNumber;
     }
@@ -48,110 +40,103 @@ public class CardHand implements Comparable<CardHand> {
 
     @Override
     public int compareTo(CardHand o) {
-        if (this.rank.getHandRankValue().ordinal() == o.rank.getHandRankValue().ordinal()){
-            if (HandRank.HandRankValue.ROYAL_FLUSH == this.rank.getHandRankValue()){
+        if (this.rank.getHandRankValue().getOrder() == o.rank.getHandRankValue().getOrder()) {
+            if (HandRank.HandRankValue.ROYAL_FLUSH == this.rank.getHandRankValue()) {
                 return 0;
             }
-            if (HandRank.HandRankValue.STRAIGHT_FLUSH == this.rank.getHandRankValue()){
-                return Integer.compare(this.rank.getHighestCard(), o.rank.getHighestCard());
+            if (HandRank.HandRankValue.STRAIGHT_FLUSH == this.rank.getHandRankValue()) {
+                return Integer.compare(this.rank.getHighestCard().getCardRank().getNumber(), o.rank.getHighestCard().getCardRank().getNumber());
             }
         } else {
-            return Integer.compare(this.rank.getHandRankValue().ordinal(), o.rank.getHandRankValue().ordinal());
+            return Integer.compare(this.rank.getHandRankValue().getOrder(), o.rank.getHandRankValue().getOrder());
         }
 
         return 0;
     }
 
     private HandRank calculateHandRank(List<Card> cards) {
-        SortedMap<CardRank, Integer> valuesCount = new TreeMap<>();
+        SortedMap<Card, Integer> valuesCount = new TreeMap<>();
         Map<Suit, Integer> suitsCount = new HashMap<>();
         cards.forEach(card -> {
-            valuesCount.put(card.getCardRank(), valuesCount.getOrDefault(card.getCardRank(), 0) + 1);
+            valuesCount.put(card, valuesCount.getOrDefault(card, 0) + 1);
             suitsCount.put(card.getSuit(), suitsCount.getOrDefault(card.getSuit(), 0) + 1);
         });
 
-        Card highestCard = cards.get(cards.size() - 1);
+        final Card highestCard = cards.get(cards.size() - 1);
         if (suitsCount.size() == 1 && cards.get(0).getCardRank() == CardRank.TEN) {
-            return new HandRank(HandRank.HandRankValue.ROYAL_FLUSH, cards.get(0).getSuit().getValue(),
-                    highestCard.getCardRank().getValue());
+            return HandRank.getHandRankForRoyalFlush(cards.get(0));
         }
 
-        boolean areConsecutiveValues = cards.get(0).getCardRank().getValue() + cards.size() - 1 == cards.get(cards.size() - 1).getCardRank().getValue();
+        final boolean isListOfConsecutiveCards = calculateIsListOfConsecutiveCards(cards);
 
-        if (areConsecutiveValues && suitsCount.size() == 1) {
-            return new HandRank(HandRank.HandRankValue.STRAIGHT_FLUSH, highestCard.getSuit().getValue(),
-                    highestCard.getCardRank().getValue());
+        if (isListOfConsecutiveCards && suitsCount.size() == 1) {
+            return HandRank.getHandRankForStraightFlush(highestCard);
         }
 
         if (valuesCount.size() == 2 && valuesCount.containsValue(4)) {
-            return new HandRank(HandRank.HandRankValue.FOUR_OF_A_KIND,
-                    calculateHandType(valuesCount, 4));
+            return HandRank.getHandRankForFourOfAKind(calculateHandType(valuesCount, 4));
         }
 
         if (suitsCount.size() == 2 && suitsCount.containsValue(3)) {
-            return new HandRank(HandRank.HandRankValue.FULL_HOUSE,
-                    calculateHandType(valuesCount, 3));
+            return HandRank.getHandRankForFullHouse(calculateHandType(valuesCount, 3));
         }
 
-        if (!areConsecutiveValues && suitsCount.size() == 1) {
-            return new HandRank(HandRank.HandRankValue.FLUSH, highestCard.getSuit().getValue());
+        if (!isListOfConsecutiveCards && suitsCount.size() == 1) {
+            return HandRank.getHandRankForFlush(highestCard);
         }
 
-        if (areConsecutiveValues) {
-            return new HandRank(HandRank.HandRankValue.STRAIGHT, highestCard.getCardRank().getValue());
+        if (isListOfConsecutiveCards) {
+            return HandRank.getHandRankForStraight(highestCard);
         }
 
         if (suitsCount.containsValue(3)) {
-            return new HandRank(HandRank.HandRankValue.THREE_OF_A_KIND,
-                    calculateHandType(valuesCount, 3));
+            return HandRank.getHandRankForThreeOfAKind(calculateHandType(valuesCount, 3));
         }
 
         if (suitsCount.size() == 3 && valuesCount.size() == 3) {
-            char[] calculateHandTypeAndHighestCardTwoPairsResult = calculateHandTypeAndHighestCardTwoPairs(valuesCount);
-            return new HandRank(HandRank.HandRankValue.TWO_PAIRS,
-                    new char[]{calculateHandTypeAndHighestCardTwoPairsResult[0],
+            final Card[] calculateHandTypeAndHighestCardTwoPairsResult = calculateHandTypeAndHighestCardTwoPairs(valuesCount);
+            return HandRank.getHandRankForTwoPairs(
+                    new Card[]{calculateHandTypeAndHighestCardTwoPairsResult[0],
                             calculateHandTypeAndHighestCardTwoPairsResult[1]},
                     calculateHandTypeAndHighestCardTwoPairsResult[2]);
         }
 
-        if (suitsCount.size() == 4 && valuesCount.size() == 4) {
-            char[] handTypeAndHighestCard = calculateHandTypeAndHighestCardOnePair(valuesCount);
-            return new HandRank(HandRank.HandRankValue.ONE_PAIR,
-                    handTypeAndHighestCard[0],
-                    handTypeAndHighestCard[1]);
+        if (valuesCount.size() == 4) {
+            final Card[] handTypeAndHighestCard = calculateHandTypeAndHighestCardOnePair(valuesCount);
+            return HandRank.getHandRankForOnePair(handTypeAndHighestCard[0], handTypeAndHighestCard[1]);
         }
 
         if (valuesCount.size() == 5) {
-            return new HandRank(HandRank.HandRankValue.HIGH_CARD, highestCard.getCardRank().getValue());
+            return HandRank.getHandRankForHighCard(highestCard);
         }
 
         throw new PokerHandException("Unable to calculate the hand rank of this one :" + cards);
     }
 
-    private char calculateHandType(Map<CardRank, Integer> valuesCount, int indexOfHandType) {
+    private Card calculateHandType(Map<Card, Integer> valuesCount, int indexOfHandType) {
         for (var entry : valuesCount.entrySet()) {
             if (entry.getValue() == indexOfHandType) {
-                return entry.getKey().getValue();
+                return entry.getKey();
             }
         }
-        return 0;
+        return null;
     }
 
-    private char[] calculateHandTypeAndHighestCardOnePair(Map<CardRank, Integer> valuesCount) {
-        char[] cards = new char[2];
+    private Card[] calculateHandTypeAndHighestCardOnePair(Map<Card, Integer> valuesCount) {
+        Card[] cards = new Card[2];
         for (var entry : valuesCount.entrySet()) {
-            cards[entry.getValue() == 2 ? 0 : 1] = entry.getKey().getValue();
+            cards[entry.getValue() == 2 ? 0 : 1] = entry.getKey();
         }
         return cards;
     }
 
-    private char[] calculateHandTypeAndHighestCardTwoPairs(Map<CardRank, Integer> valuesCount) {
-        char[] cards = new char[3];
+    private Card[] calculateHandTypeAndHighestCardTwoPairs(Map<Card, Integer> valuesCount) {
+        Card[] cards = new Card[3];
         for (var entry : valuesCount.entrySet()) {
             if (entry.getValue() == 1) {
-                cards[2] = entry.getKey().getValue();
+                cards[2] = entry.getKey();
             } else {
-                cards[cards[0] == 0 ? 0 : 1] = entry.getKey().getValue();
+                cards[cards[0] == null ? 0 : 1] = entry.getKey();
             }
         }
         return cards;
@@ -160,6 +145,12 @@ public class CardHand implements Comparable<CardHand> {
     @Override
     public String toString() {
         return Arrays.toString(cards.toArray());
+    }
+
+    private boolean calculateIsListOfConsecutiveCards(List<Card> cards) {
+        final int firstCardOrder = cards.get(0).getCardRank().getNumber();
+        final int lastCardOrder = cards.get(cards.size() - 1).getCardRank().getNumber();
+        return firstCardOrder + cards.size() - 1 == lastCardOrder;
     }
 
 }
