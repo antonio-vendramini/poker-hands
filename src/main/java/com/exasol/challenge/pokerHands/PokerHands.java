@@ -1,6 +1,7 @@
 package com.exasol.challenge.pokerHands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class PokerHands {
@@ -14,11 +15,18 @@ class PokerHands {
         System.out.println("Ranking:");
 
         List<CardHand> cardsHands = new ArrayList<>();
-        for (int i = 0; i < args.length; i++) {
-            cardsHands.add(new CardHand(args[i]));
-//            System.out.println("Player " + (i + 1) + " " + args[i]);
+        for (int i=1; i<=args.length; i++) {
+            cardsHands.add(new CardHand(i, args[i]));
         }
 
+        Collections.sort(cardsHands);
+
+        System.out.println("Ranking:");
+        for (int i=1; i<=cardsHands.size(); i++) {
+            CardHand cardHand =cardsHands.get(i-1);
+            System.out.println("        " + i + "     Player " + cardHand.getPlayerNumber() + "    " + cardHand  + "     " + cardHand.getRank().getHandRankValue().name() + ", " + cardHand.getRank().getHandType());
+        }
+        System.out.println("Player " + cardsHands.get(0).getPlayerNumber() + " wins.");
 
 
 

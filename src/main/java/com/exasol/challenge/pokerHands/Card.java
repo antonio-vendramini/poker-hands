@@ -1,6 +1,6 @@
 package com.exasol.challenge.pokerHands;
 
-public class Card {
+public class Card implements Comparable<Card> {
 
     private char value;
     private char suit;
@@ -29,4 +29,15 @@ public class Card {
     public void setSuit(char suit) {
         this.suit = suit;
     }
+
+    @Override
+    public int compareTo(Card o) {
+        return Character.compare(this.getValue(), o.getValue());
+    }
+
+    @Override
+    public String toString() {
+        return "" + value + suit;
+    }
+
 }

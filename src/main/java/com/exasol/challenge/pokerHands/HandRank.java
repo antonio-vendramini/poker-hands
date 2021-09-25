@@ -23,18 +23,54 @@ public class HandRank {
     }
 
     private HandRankValue handRankValue;
-    private CardRank handType;
-    private CardRank highestCard;
+    private char[] handType;
+    private char highestCard;
 
-    public HandRank(HandRankValue handRankValue, CardRank handType, CardRank highestCard) {
+    public HandRank(HandRankValue handRankValue, char[] handType, char highestCard) {
         this.handRankValue = handRankValue;
         this.handType = handType;
         this.highestCard = highestCard;
     }
 
-    public HandRank(HandRankValue handRankValue, CardRank handType) {
+    public HandRank(HandRankValue handRankValue, char handType, char highestCard) {
+        this.handRankValue = handRankValue;
+        this.handType = new char[] { handType };
+        this.highestCard = highestCard;
+    }
+
+    public HandRank(HandRankValue handRankValue, char[] handType) {
         this.handRankValue = handRankValue;
         this.handType = handType;
-        this.highestCard = null;
+        this.highestCard = 0;
+    }
+
+    public HandRank(HandRankValue handRankValue, char handType) {
+        this.handRankValue = handRankValue;
+        this.handType = new char[] { handType };
+        this.highestCard = 0;
+    }
+
+    public HandRankValue getHandRankValue() {
+        return handRankValue;
+    }
+
+    public void setHandRankValue(HandRankValue handRankValue) {
+        this.handRankValue = handRankValue;
+    }
+
+    public char[] getHandType() {
+        return handType;
+    }
+
+    public void setHandType(char[] handType) {
+        this.handType = handType;
+    }
+
+    public char getHighestCard() {
+        return highestCard;
+    }
+
+    public void setHighestCard(char highestCard) {
+        this.highestCard = highestCard;
     }
 }
