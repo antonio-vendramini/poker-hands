@@ -2,7 +2,7 @@ package com.exasol.challenge.pokerHands.engine;
 
 import com.exasol.challenge.pokerHands.log.Log;
 import com.exasol.challenge.pokerHands.model.Card;
-import com.exasol.challenge.pokerHands.model.CardHand;
+import com.exasol.challenge.pokerHands.model.Hand;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,12 +17,12 @@ public class PokerHandEngine {
         printPokerHandResult(calculateHand(args));
     }
 
-    public List<CardHand> calculateHand(String[] args) {
-        List<CardHand> cardsHands = new ArrayList<>();
+    public List<Hand> calculateHand(String[] args) {
+        List<Hand> cardsHands = new ArrayList<>();
         if (validateHand(args)) {
 
             for (int i = 1; i <= args.length; i++) {
-                cardsHands.add(new CardHand(i, args[i - 1]));
+                cardsHands.add(new Hand(i, args[i - 1]));
             }
 
             Collections.sort(cardsHands);
@@ -32,13 +32,13 @@ public class PokerHandEngine {
     }
 
 
-    private void printPokerHandResult(List<CardHand> cardsHands) {
+    private void printPokerHandResult(List<Hand> cardsHands) {
         Log.info("Ranking:");
         int ranking = 1;
-        for (int i = 1; i <= cardsHands.size(); i++) {
-            final CardHand cardHand = cardsHands.get(i - 1);
-            Log.info("        " + ranking + "     Player " + cardHand.getPlayerNumber() + "    " +
-                    cardHand + "     " + cardHand.getRank());
+        for (int i = cardsHands.size(); i > 0 ; i--) {
+            final Hand hand = cardsHands.get(i - 1);
+            Log.info("        " + ranking + "     Player " + hand.getPlayerNumber() + "    " +
+                    hand + "     " + hand.getRank());
             ranking++;
         }
         Log.info(" ");
@@ -66,13 +66,13 @@ public class PokerHandEngine {
     }
 
     private boolean validateHandCards(String handString) {
-        final String[] cards = handString.split(CardHand.CARD_HAND_SEPARATOR, CardHand.CARD_HAND_CARD_NUMBER);
-        if (cards.length < CardHand.CARD_HAND_CARD_NUMBER ||
-                cards[CardHand.CARD_HAND_CARD_NUMBER - 1].length() > 2) {
-            Log.error("An hand must be made of exactly " + CardHand.CARD_HAND_CARD_NUMBER + " cards: [" + handString + "]");
+        final String[] cards = handString.split(Hand.CARD_HAND_SEPARATOR, Hand.CARD_HAND_CARD_NUMBER);
+        if (cards.length < Hand.CARD_HAND_CARD_NUMBER ||
+                cards[Hand.CARD_HAND_CARD_NUMBER - 1].length() > 2) {
+            Log.error("An hand must be made of exactly " + Hand.CARD_HAND_CARD_NUMBER + " cards: [" + handString + "]");
             return false;
         }
-        for (String cardString : handString.split(CardHand.CARD_HAND_SEPARATOR, CardHand.CARD_HAND_CARD_NUMBER)) {
+        for (String cardString : handString.split(Hand.CARD_HAND_SEPARATOR, Hand.CARD_HAND_CARD_NUMBER)) {
             final Card card = Card.getCard(cardString);
             if (card.getCardRank() == null) {
                 Log.error("Invalid card rank: [" + cardString + "]");

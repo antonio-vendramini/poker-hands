@@ -1,6 +1,6 @@
 package com.exasol.challenge.model;
 
-import com.exasol.challenge.pokerHands.model.CardHand;
+import com.exasol.challenge.pokerHands.model.Hand;
 import com.exasol.challenge.pokerHands.model.CardRank;
 import com.exasol.challenge.pokerHands.model.HandRank;
 import com.exasol.challenge.pokerHands.model.Suit;
@@ -16,7 +16,7 @@ import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.STRAI
 import static com.exasol.challenge.pokerHands.model.Suit.DIAMONDS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CardHandTest {
+public class HandTest {
 
     @Test
     public void shouldClassifyAsFourOfAKind() {
@@ -42,16 +42,16 @@ public class CardHandTest {
 
     private void classifyByRankAndCardRank(String handString, HandRank.HandRankValue expectedHandRankValue,
                                            CardRank expectedCardRank) {
-        CardHand cardHand = new CardHand(1, handString);
-        HandRank handRank = cardHand.getRank();
+        Hand hand = new Hand(1, handString);
+        HandRank handRank = hand.getRank();
 
         assertEquals(expectedHandRankValue, handRank.getHandRankValue());
         assertEquals(expectedCardRank, handRank.getHandValuableCards()[0].getCardRank());
     }
 
     private void classifyByRankAndCardSuit(String handString, HandRank.HandRankValue expectedHandRankValue, Suit expectedSuit) {
-        CardHand cardHand = new CardHand(1, handString);
-        HandRank handRank = cardHand.getRank();
+        Hand hand = new Hand(1, handString);
+        HandRank handRank = hand.getRank();
 
         assertEquals(expectedHandRankValue, handRank.getHandRankValue());
         assertEquals(expectedSuit, handRank.getHandValuableCards()[0].getSuit());

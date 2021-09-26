@@ -11,7 +11,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-public class CardHand implements Comparable<CardHand> {
+public class Hand implements Comparable<Hand> {
 
     public static final String CARD_HAND_SEPARATOR = " ";
     public static final int CARD_HAND_CARD_NUMBER = 5;
@@ -28,7 +28,7 @@ public class CardHand implements Comparable<CardHand> {
         return rank;
     }
 
-    public CardHand(int playerNumber, String handString) {
+    public Hand(int playerNumber, String handString) {
         List<Card> cards = new ArrayList<>();
         for (String card : handString.split(CARD_HAND_SEPARATOR)) {
             cards.add(Card.getCard(card));
@@ -42,7 +42,7 @@ public class CardHand implements Comparable<CardHand> {
     }
 
     @Override
-    public int compareTo(CardHand other) {
+    public int compareTo(Hand other) {
         if (this.rank.getHandRankValue().getOrder() == other.rank.getHandRankValue().getOrder()) {
             if (HandRank.HandRankValue.ROYAL_FLUSH == this.rank.getHandRankValue()) {
                 return 0;
@@ -70,7 +70,7 @@ public class CardHand implements Comparable<CardHand> {
         return cards.stream().map(Object::toString).collect(Collectors.joining(" "));
     }
 
-    private int compareOnePair(CardHand other) {
+    private int compareOnePair(Hand other) {
         final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
         final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
@@ -82,7 +82,7 @@ public class CardHand implements Comparable<CardHand> {
         return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
     }
 
-    private int compareTwoPairs(CardHand other) {
+    private int compareTwoPairs(Hand other) {
         final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
         final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
