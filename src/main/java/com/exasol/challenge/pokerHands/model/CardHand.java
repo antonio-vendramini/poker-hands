@@ -39,50 +39,50 @@ public class CardHand implements Comparable<CardHand> {
     }
 
     @Override
-    public int compareTo(CardHand o) {
-        if (this.rank.getHandRankValue().getOrder() == o.rank.getHandRankValue().getOrder()) {
+    public int compareTo(CardHand other) {
+        if (this.rank.getHandRankValue().getOrder() == other.rank.getHandRankValue().getOrder()) {
             if (HandRank.HandRankValue.ROYAL_FLUSH == this.rank.getHandRankValue()) {
                 return 0;
             }
 
             if (HandRank.HandRankValue.TWO_PAIRS == this.rank.getHandRankValue()) {
-                return compareTwoPairs(o);
+                return compareTwoPairs(other);
             }
 
             if (HandRank.HandRankValue.ONE_PAIR == this.rank.getHandRankValue()) {
-                return compareOnePair(o);
+                return compareOnePair(other);
             }
 
             final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
-            final int otherHandHighestCardWeight = o.rank.getHighestCard().getCardRank().getWeight();
+            final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
             return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
         } else {
-            return Integer.compare(this.rank.getHandRankValue().getOrder(), o.rank.getHandRankValue().getOrder());
+            return Integer.compare(this.rank.getHandRankValue().getOrder(), other.rank.getHandRankValue().getOrder());
         }
     }
 
-    private int compareOnePair(CardHand o){
+    private int compareOnePair(CardHand other){
         final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
-        final int otherHandHighestCardWeight = o.rank.getHighestCard().getCardRank().getWeight();
+        final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
         final int thisFirstPairCardWeight = this.rank.getHandValuableCards()[0].getCardRank().getWeight();
-        final int otherFirstPairCardWeight = o.rank.getHandValuableCards()[0].getCardRank().getWeight();
+        final int otherFirstPairCardWeight = other.rank.getHandValuableCards()[0].getCardRank().getWeight();
         if (thisFirstPairCardWeight != otherFirstPairCardWeight) {
             return Integer.compare(thisFirstPairCardWeight, otherFirstPairCardWeight);
         }
         return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
     }
 
-    private int compareTwoPairs(CardHand o){
+    private int compareTwoPairs(CardHand other){
         final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
-        final int otherHandHighestCardWeight = o.rank.getHighestCard().getCardRank().getWeight();
+        final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
         int thisFirstPairCardWeight = this.rank.getHandValuableCards()[0].getCardRank().getWeight();
-        int otherFirstPairCardWeight = o.rank.getHandValuableCards()[0].getCardRank().getWeight();
+        int otherFirstPairCardWeight = other.rank.getHandValuableCards()[0].getCardRank().getWeight();
         if (thisFirstPairCardWeight == otherFirstPairCardWeight) {
             int thisSecondPairCardWeight = this.rank.getHandValuableCards()[1].getCardRank().getWeight();
-            int otherSecondPairCardWeight = o.rank.getHandValuableCards()[1].getCardRank().getWeight();
+            int otherSecondPairCardWeight = other.rank.getHandValuableCards()[1].getCardRank().getWeight();
             if (thisSecondPairCardWeight == otherSecondPairCardWeight){
                 return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
             }

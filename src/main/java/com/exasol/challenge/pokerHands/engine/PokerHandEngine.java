@@ -22,11 +22,14 @@ public class PokerHandEngine {
         Collections.sort(cardsHands);
 
         Log.info("Ranking:");
+        int ranking = 1;
         for (int i=1; i<=cardsHands.size(); i++) {
-            CardHand cardHand = cardsHands.get(i-1);
-            Log.info("        " + i + "     Player " + cardHand.getPlayerNumber() + "    " + cardHand  + "     " + cardHand.getRank().getHandRankValue().name() + ", " + cardHand.getRank());
+            final CardHand cardHand = cardsHands.get(i-1);
+            Log.info("        " + ranking + "     Player " + cardHand.getPlayerNumber() + "    " +
+                    cardHand  + "     " + cardHand.getRank());
+            ranking++;
         }
-        Log.info("Player " + cardsHands.get(0).getPlayerNumber() + " wins.");
+        Log.info("Player " + cardsHands.get(cardsHands.size()-1).getPlayerNumber() + " wins.");
 
     }
 
