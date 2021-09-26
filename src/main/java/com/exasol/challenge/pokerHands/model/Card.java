@@ -5,12 +5,12 @@ public class Card implements Comparable<Card> {
     private CardRank cardRank;
     private Suit suit;
 
-    Card(char[] card){
+    private Card(char[] card){
         this.cardRank = CardRank.get(card[0]);
         this.suit = Suit.get(card[1]);
     }
 
-    public Card(char card){
+    private Card(char card){
         this.cardRank = CardRank.get(card);
     }
 
@@ -21,6 +21,15 @@ public class Card implements Comparable<Card> {
     public Suit getSuit() {
         return suit;
     }
+
+    public static Card getCard(String cardString){
+        return new Card(cardString.toCharArray());
+    }
+
+    public static Card getCardByRank(CardRank cardRank){
+        return new Card(cardRank.getValue());
+    }
+
 
     @Override
     public int compareTo(Card o) {

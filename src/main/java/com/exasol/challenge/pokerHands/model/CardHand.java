@@ -10,8 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 public class CardHand implements Comparable<CardHand> {
+
+    public static final String CARD_HAND_SEPARATOR = " ";
+    public static final int CARD_HAND_CARD_NUMBER = 5;
 
     private int playerNumber;
     private List<Card> cards;
@@ -27,8 +31,8 @@ public class CardHand implements Comparable<CardHand> {
 
     public CardHand(int playerNumber, String handString) {
         List<Card> cards = new ArrayList<>();
-        for (String card : handString.split(" ")) {
-            cards.add(new Card(card.toCharArray()));
+        for (String card : handString.split(CARD_HAND_SEPARATOR)) {
+            cards.add(Card.getCard(card));
         }
 
         Collections.sort(cards);
@@ -62,7 +66,12 @@ public class CardHand implements Comparable<CardHand> {
         }
     }
 
-    private int compareOnePair(CardHand other){
+    @Override
+    public String toString() {
+        return cards.stream().map(Object::toString).collect(Collectors.joining(" "));
+    }
+
+    private int compareOnePair(CardHand other) {
         final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
         final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
@@ -74,7 +83,7 @@ public class CardHand implements Comparable<CardHand> {
         return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
     }
 
-    private int compareTwoPairs(CardHand other){
+    private int compareTwoPairs(CardHand other) {
         final int thisHandHighestCardWeight = this.rank.getHighestCard().getCardRank().getWeight();
         final int otherHandHighestCardWeight = other.rank.getHighestCard().getCardRank().getWeight();
 
@@ -83,7 +92,7 @@ public class CardHand implements Comparable<CardHand> {
         if (thisFirstPairCardWeight == otherFirstPairCardWeight) {
             int thisSecondPairCardWeight = this.rank.getHandValuableCards()[1].getCardRank().getWeight();
             int otherSecondPairCardWeight = other.rank.getHandValuableCards()[1].getCardRank().getWeight();
-            if (thisSecondPairCardWeight == otherSecondPairCardWeight){
+            if (thisSecondPairCardWeight == otherSecondPairCardWeight) {
                 return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
             }
         } else {
@@ -91,7 +100,6 @@ public class CardHand implements Comparable<CardHand> {
         }
         return Integer.compare(thisHandHighestCardWeight, otherHandHighestCardWeight);
     }
-
 
     private HandRank calculateHandRank(List<Card> cards) {
         SortedMap<Card, Integer> valuesCount = new TreeMap<>();
@@ -179,11 +187,6 @@ public class CardHand implements Comparable<CardHand> {
             }
         }
         return cards;
-    }
-
-    @Override
-    public String toString() {
-        return Arrays.toString(cards.toArray());
     }
 
     private boolean calculateIsListOfConsecutiveCards(List<Card> cards) {
