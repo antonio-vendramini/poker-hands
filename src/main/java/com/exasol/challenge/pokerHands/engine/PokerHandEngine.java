@@ -51,7 +51,7 @@ public class PokerHandEngine {
                 .collect(Collectors.toList());
 
         StringBuilder winnersNumbers = new StringBuilder();
-        for (Hand hand:tieWinners){
+        for (Hand hand : tieWinners) {
             winnersNumbers.append(hand.getPlayerNumber()).append(", ");
         }
 

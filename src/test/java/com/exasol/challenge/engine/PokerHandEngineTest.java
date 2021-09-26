@@ -15,7 +15,6 @@ public class PokerHandEngineTest {
         playAndCheckUniqueWinner(2, "2D 2C 2S 2H 7C", "8D 9D 9C 9S 9H");
     }
 
-
     @Test
     public void shouldChooseTheRoyalFlush() {
         playAndCheckUniqueWinner(1, "TC JC QC KC AC", "8D 9D 9C 9S 9H");
