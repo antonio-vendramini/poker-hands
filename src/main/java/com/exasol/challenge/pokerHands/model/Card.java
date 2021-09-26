@@ -5,13 +5,9 @@ public class Card implements Comparable<Card> {
     private CardRank cardRank;
     private Suit suit;
 
-    private Card(char[] card){
+    private Card(char[] card) {
         this.cardRank = CardRank.get(card[0]);
         this.suit = Suit.get(card[1]);
-    }
-
-    private Card(char card){
-        this.cardRank = CardRank.get(card);
     }
 
     public CardRank getCardRank() {
@@ -22,14 +18,9 @@ public class Card implements Comparable<Card> {
         return suit;
     }
 
-    public static Card getCard(String cardString){
+    public static Card getCard(String cardString) {
         return new Card(cardString.toCharArray());
     }
-
-    public static Card getCardByRank(CardRank cardRank){
-        return new Card(cardRank.getValue());
-    }
-
 
     @Override
     public int compareTo(Card o) {
@@ -38,7 +29,7 @@ public class Card implements Comparable<Card> {
 
     @Override
     public String toString() {
-        return "" + cardRank.getValue() + (suit!=null?suit.getValue():"");
+        return "" + cardRank.getValue() + (suit != null ? suit.getValue() : "");
     }
 
 }

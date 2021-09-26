@@ -12,7 +12,7 @@ public enum Suit {
 
     private char value;
 
-    Suit(char value){
+    Suit(char value) {
         this.value = value;
     }
 

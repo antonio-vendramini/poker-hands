@@ -3,7 +3,6 @@ package com.exasol.challenge.pokerHands.model;
 import com.exasol.challenge.pokerHands.exception.PokerHandException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

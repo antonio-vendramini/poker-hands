@@ -17,7 +17,7 @@ public class PokerHandEngine {
         printPokerHandResult(calculateHand(args));
     }
 
-    public List<CardHand> calculateHand(String[] args){
+    public List<CardHand> calculateHand(String[] args) {
         List<CardHand> cardsHands = new ArrayList<>();
         if (validateHand(args)) {
 
@@ -32,7 +32,7 @@ public class PokerHandEngine {
     }
 
 
-    private void printPokerHandResult(List<CardHand> cardsHands){
+    private void printPokerHandResult(List<CardHand> cardsHands) {
         Log.info("Ranking:");
         int ranking = 1;
         for (int i = 1; i <= cardsHands.size(); i++) {
@@ -52,7 +52,7 @@ public class PokerHandEngine {
             return false;
         }
 
-        if (args.length < HAND_MIN_NUMBER_OF_PLAYERS || args.length > HAND_MAX_NUMBER_OF_PLAYERS){
+        if (args.length < HAND_MIN_NUMBER_OF_PLAYERS || args.length > HAND_MAX_NUMBER_OF_PLAYERS) {
             Log.error("There can be a min of " + HAND_MIN_NUMBER_OF_PLAYERS +
                     " and a maximun of " + HAND_MAX_NUMBER_OF_PLAYERS);
             return false;
@@ -68,17 +68,17 @@ public class PokerHandEngine {
     private boolean validateHandCards(String handString) {
         final String[] cards = handString.split(CardHand.CARD_HAND_SEPARATOR, CardHand.CARD_HAND_CARD_NUMBER);
         if (cards.length < CardHand.CARD_HAND_CARD_NUMBER ||
-                cards[CardHand.CARD_HAND_CARD_NUMBER-1].length() > 2){
+                cards[CardHand.CARD_HAND_CARD_NUMBER - 1].length() > 2) {
             Log.error("An hand must be made of exactly " + CardHand.CARD_HAND_CARD_NUMBER + " cards: [" + handString + "]");
             return false;
         }
         for (String cardString : handString.split(CardHand.CARD_HAND_SEPARATOR, CardHand.CARD_HAND_CARD_NUMBER)) {
             final Card card = Card.getCard(cardString);
-            if (card.getCardRank() == null){
+            if (card.getCardRank() == null) {
                 Log.error("Invalid card rank: [" + cardString + "]");
                 return false;
             }
-            if (card.getSuit() == null){
+            if (card.getSuit() == null) {
                 Log.error("Invalid card suit: [" + cardString + "]");
                 return false;
             }
