@@ -15,23 +15,23 @@ public class PokerHandEngineTest {
     }
 
     @Test
-    public void should1() {
+    public void challengeExampleOne() {
         playAndCheckWinner(2, "5H 5C 6S 7S KD", "2C 3S 8S 8D TD", "5D 8C 9S JS AC");
     }
     @Test
-    public void should2() {
+    public void challengeExampleTwo() {
         playAndCheckWinner(1, "5D 8C 9S JS AC", "2C 5C 7D 8S QH", "2C 5C 7D 8S KH");
     }
     @Test
-    public void should3() {
+    public void challengeExampleThree() {
         playAndCheckWinner(2, "2D 9C AS AH AC", "3D 6D 7D TD QD", "2C 5C 7D 8S QH");
     }
     @Test
-    public void should4() {
+    public void challengeExampleFour() {
         playAndCheckWinner(1, "4D 6S 9H QH QC", "3D 6D 7H QD QS", "2C 5C 7D 8S QH");
     }
     @Test
-    public void should5() {
+    public void challengeExampleFive() {
         playAndCheckWinner(1, "2H 2D 4C 4D 4S", "3C 3D 3S 9S 9D", "2C 5C 7D 8S QH");
     }
 
