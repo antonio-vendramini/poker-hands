@@ -1,4 +1,4 @@
-package com.exasol.challenge.pokerHands;
+package com.exasol.challenge.pokerHands.model;
 
 public class Hand implements Comparable<Integer> {
     @Override

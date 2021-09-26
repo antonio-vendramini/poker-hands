@@ -1,4 +1,4 @@
-package com.exasol.challenge.pokerHands;
+package com.exasol.challenge.pokerHands.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,11 +19,11 @@ public enum CardRank{
     KING((byte)13, 'K'),
     ACE((byte)14, 'A');
 
-    private byte number;
+    private byte weight;
     private char value;
 
-    CardRank(byte number, char value) {
-        this.number = number;
+    CardRank(byte weight, char value) {
+        this.weight = weight;
         this.value = value;
     }
 
@@ -43,7 +43,7 @@ public enum CardRank{
         return lookup.get(value);
     }
 
-    public byte getNumber() {
-        return number;
+    public byte getWeight() {
+        return weight;
     }
 }

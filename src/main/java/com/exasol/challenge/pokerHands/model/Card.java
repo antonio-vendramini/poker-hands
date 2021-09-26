@@ -1,4 +1,4 @@
-package com.exasol.challenge.pokerHands;
+package com.exasol.challenge.pokerHands.model;
 
 public class Card implements Comparable<Card> {
 
@@ -10,7 +10,7 @@ public class Card implements Comparable<Card> {
         this.suit = Suit.get(card[1]);
     }
 
-    Card(char card){
+    public Card(char card){
         this.cardRank = CardRank.get(card);
     }
 
@@ -24,12 +24,12 @@ public class Card implements Comparable<Card> {
 
     @Override
     public int compareTo(Card o) {
-        return Integer.compare(this.getCardRank().ordinal(), o.getCardRank().ordinal());
+        return Integer.compare(this.getCardRank().getWeight(), o.getCardRank().getWeight());
     }
 
     @Override
     public String toString() {
-        return "" + cardRank.getValue() + suit.getValue();
+        return "" + cardRank.getValue() + (suit!=null?suit.getValue():"");
     }
 
 }

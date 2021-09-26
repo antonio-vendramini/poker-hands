@@ -1,4 +1,4 @@
-package com.exasol.challenge.pokerHands;
+package com.exasol.challenge.pokerHands.model;
 
 import java.util.HashMap;
 import java.util.Map;
