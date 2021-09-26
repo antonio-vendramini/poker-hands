@@ -7,6 +7,7 @@ import com.exasol.challenge.pokerHands.model.Hand;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PokerHandEngine {
 
@@ -31,18 +32,35 @@ public class PokerHandEngine {
         return cardsHands;
     }
 
-
     private void printPokerHandResult(List<Hand> cardsHands) {
         Log.info("Ranking:");
+
         int ranking = 1;
-        for (int i = cardsHands.size(); i > 0 ; i--) {
+
+        for (int i = cardsHands.size(); i > 0; i--) {
             final Hand hand = cardsHands.get(i - 1);
             Log.info("        " + ranking + "     Player " + hand.getPlayerNumber() + "    " +
                     hand + "     " + hand.getRank());
             ranking++;
         }
         Log.info(" ");
-        Log.info("Player " + cardsHands.get(cardsHands.size() - 1).getPlayerNumber() + " wins.");
+
+        final Hand winner = cardsHands.get(cardsHands.size() - 1);
+        final List<Hand> tieWinners = cardsHands.stream()
+                .filter(c -> c.getRank().getHandRankValue().getOrder() == winner.getRank().getHandRankValue().getOrder())
+                .collect(Collectors.toList());
+
+        StringBuilder winnersNumbers = new StringBuilder();
+        for (Hand hand:tieWinners){
+            winnersNumbers.append(hand.getPlayerNumber()).append(", ");
+        }
+
+        if (tieWinners.size() == 1) {
+            Log.info("Player " + winnersNumbers.substring(0, winnersNumbers.length() - 1) + " wins.");
+        }
+        if (tieWinners.size() > 1) {
+            Log.info("Players " + winnersNumbers.substring(0, winnersNumbers.length() - 1) + " wins and will get the pod equally splitted");
+        }
     }
 
 

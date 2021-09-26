@@ -1,5 +1,7 @@
 package com.exasol.challenge.pokerHands.model;
 
+import java.util.Objects;
+
 public class Card implements Comparable<Card> {
 
     private CardRank cardRank;
@@ -32,4 +34,16 @@ public class Card implements Comparable<Card> {
         return "" + cardRank.getValue() + (suit != null ? suit.getValue() : "");
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return getCardRank().getWeight() == card.getCardRank().getWeight();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCardRank());
+    }
 }
