@@ -23,8 +23,8 @@ public class Card implements Comparable<Card> {
     }
 
     @Override
-    public int compareTo(Card o) {
-        return Integer.compare(this.getCardRank().getWeight(), o.getCardRank().getWeight());
+    public int compareTo(Card other) {
+        return Integer.compare(this.getCardRank().getWeight(), other.getCardRank().getWeight());
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.exasol.challenge.pokerHands.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.exasol.challenge.pokerHands.util.StringUtils.capitalize;
+
 public enum CardRank {
 
     TWO((byte) 2, '2'),
@@ -45,5 +47,10 @@ public enum CardRank {
 
     public byte getWeight() {
         return weight;
+    }
+
+    @Override
+    public String toString() {
+        return capitalize(this.name());
     }
 }

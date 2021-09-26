@@ -3,6 +3,8 @@ package com.exasol.challenge.pokerHands.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.exasol.challenge.pokerHands.util.StringUtils.capitalize;
+
 public enum Suit {
 
     CLUBS('C'),
@@ -30,6 +32,11 @@ public enum Suit {
 
     public static Suit get(char value) {
         return lookup.get(value);
+    }
+
+    @Override
+    public String toString() {
+        return capitalize(this.name());
     }
 
 }
