@@ -76,15 +76,9 @@ public class PokerHandEngineTest {
         PokerHandEngine pokerHandEngine = new PokerHandEngine();
         List<Hand> ranking = pokerHandEngine.calculateHand(cardsHand);
 
-        final int bestRanking = ranking.get(ranking.size() - 1).getRank().getHighestCard().getCardRank().getWeight();
-        int numberOfWinners = 0;
-        for (int i = ranking.size() - 1; i >= 0; i--) {
-            if( bestRanking == ranking.get(i).getRank().getHighestCard().getCardRank().getWeight()){
-                numberOfWinners++;
-            }
-        }
+        List<Hand> winners = pokerHandEngine.getWinners(ranking);
 
-        assertEquals(expectedNumberOfWinners, numberOfWinners);
+        assertEquals(expectedNumberOfWinners, winners.size());
 
     }
 

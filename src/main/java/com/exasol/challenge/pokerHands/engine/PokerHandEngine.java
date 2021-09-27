@@ -45,10 +45,7 @@ public class PokerHandEngine {
         }
         Log.info(" ");
 
-        final Hand winner = cardsHands.get(cardsHands.size() - 1);
-        final List<Hand> tieWinners = cardsHands.stream()
-                .filter(c -> c.getRank().getHandRankValue().getOrder() == winner.getRank().getHandRankValue().getOrder())
-                .collect(Collectors.toList());
+        final List<Hand> tieWinners = getWinners(cardsHands);
 
         StringBuilder winnersNumbers = new StringBuilder();
         for (Hand hand : tieWinners) {
@@ -63,6 +60,13 @@ public class PokerHandEngine {
         }
     }
 
+    public List<Hand> getWinners(List<Hand> cardsHands) {
+        final Hand winner = cardsHands.get(cardsHands.size() - 1);
+        return cardsHands.stream()
+                .filter(c -> c.getRank().getHandRankValue().getOrder() == winner.getRank().getHandRankValue().getOrder())
+                .filter(c -> c.getRank().getHandValuableCardsString().equals(winner.getRank().getHandValuableCardsString()))
+                .collect(Collectors.toList());
+    }
 
     private boolean validateHand(String[] args) {
         if (args == null || args.length == 0) {
