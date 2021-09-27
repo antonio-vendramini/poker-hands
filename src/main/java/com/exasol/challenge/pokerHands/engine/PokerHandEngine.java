@@ -20,19 +20,26 @@ public class PokerHandEngine {
 
     public List<Hand> calculateHand(String[] args) {
         List<Hand> cardsHands = new ArrayList<>();
-        if (validateHand(args)) {
-
-            for (int i = 1; i <= args.length; i++) {
-                cardsHands.add(new Hand(i, args[i - 1]));
-            }
-
-            Collections.sort(cardsHands);
-
+        if (!validateHand(args)) {
+            return Collections.emptyList();
         }
+
+        for (int i = 1; i <= args.length; i++) {
+            cardsHands.add(new Hand(i, args[i - 1]));
+        }
+
+        Collections.sort(cardsHands);
+
         return cardsHands;
     }
 
     private void printPokerHandResult(List<Hand> cardsHands) {
+
+        if (cardsHands == null || cardsHands.size() == 0) {
+            Log.error("This hand is empty");
+            return;
+        }
+
         Log.info("Ranking:");
 
         int ranking = 1;

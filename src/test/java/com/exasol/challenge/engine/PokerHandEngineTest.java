@@ -65,6 +65,11 @@ public class PokerHandEngineTest {
         playAndCheckTie(2, "7C 8S 9D KD AS", "7D 8H 9H KS AD", "KD 7S 4D 2H 3H");
     }
 
+//    @Test
+//    public void shouldFailCardValidation() {
+//        playAndCheckTie(2, "1C 8S 9D KD AS", "7D 8H 9H KS AD", "KD 7S 4D 2H 3H");
+//    }
+
     private void playAndCheckUniqueWinner(int expectedWinner, String... cardsHand) {
         PokerHandEngine pokerHandEngine = new PokerHandEngine();
         List<Hand> ranking = pokerHandEngine.calculateHand(cardsHand);
