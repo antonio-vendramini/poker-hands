@@ -53,10 +53,10 @@ public class PokerHandEngine {
         }
 
         if (tieWinners.size() == 1) {
-            Log.info("Player " + winnersNumbers.substring(0, winnersNumbers.length() - 1) + " wins.");
+            Log.info("Player " + winnersNumbers.substring(0, winnersNumbers.length() - 2) + " wins.");
         }
         if (tieWinners.size() > 1) {
-            Log.info("Players " + winnersNumbers.substring(0, winnersNumbers.length() - 1) + " wins and will get the pod equally splitted");
+            Log.info("Players " + winnersNumbers.substring(0, winnersNumbers.length() - 2) + " win and will get the pod equally splitted");
         }
     }
 
