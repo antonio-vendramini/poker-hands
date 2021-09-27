@@ -1,7 +1,7 @@
 package com.exasol.challenge.model;
 
-import com.exasol.challenge.pokerHands.model.Hand;
 import com.exasol.challenge.pokerHands.model.CardRank;
+import com.exasol.challenge.pokerHands.model.Hand;
 import com.exasol.challenge.pokerHands.model.HandRank;
 import com.exasol.challenge.pokerHands.model.Suit;
 import org.junit.jupiter.api.Test;

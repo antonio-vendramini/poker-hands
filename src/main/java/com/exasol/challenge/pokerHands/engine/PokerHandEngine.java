@@ -96,8 +96,11 @@ public class PokerHandEngine {
         }
 
         Map<String, Integer> cardsRepetition = new HashMap<>();
+        int playerNumber = 0;
 
         for (String arg : args) {
+
+            playerNumber++;
 
             final String[] cards = arg.split(CARD_HAND_SEPARATOR, CARD_HAND_CARD_NUMBER);
 
@@ -109,7 +112,8 @@ public class PokerHandEngine {
 
             final String[] handStringSplit = arg.split(CARD_HAND_SEPARATOR, CARD_HAND_CARD_NUMBER);
 
-            if (!validateHandCards(handStringSplit) || !validateHandCardsRepetition(cardsRepetition, handStringSplit)) {
+            if (!validateHandCards(handStringSplit, playerNumber) ||
+                    !validateHandCardsRepetition(cardsRepetition, handStringSplit, playerNumber)) {
                 return false;
             }
         }
@@ -117,31 +121,33 @@ public class PokerHandEngine {
         return true;
     }
 
-    private boolean validateHandCardsRepetition(Map<String, Integer> cardsRepetition, String[] handStringSplit) {
+    private boolean validateHandCardsRepetition(Map<String, Integer> cardsRepetition, String[] handStringSplit,
+                                                int playerNumber) {
         for (String cardString : handStringSplit) {
             if (cardsRepetition.putIfAbsent(cardString, 1) != null) {
-                Log.error("The card is repeated in this hand: [" + cardString + "]");
+                Log.error("Player " + playerNumber + "The card is repeated in this hand: " + cardString + "");
                 return false;
             }
         }
         return true;
     }
 
-    private boolean validateHandCards(String[] handStringSplit) {
+    private boolean validateHandCards(String[] handStringSplit, int playerNumber) {
 
         for (String cardString : handStringSplit) {
             final Card card = Card.getCard(cardString);
 
             if (card.getCardRank() == null) {
-                Log.error("Invalid card rank: [" + cardString + "], valid ranks are: " + Arrays.toString(CardRank.values()));
+                Log.error("Player " + playerNumber + " invalid card rank: " + cardString + ", valid ranks are: " + Arrays.toString(CardRank.values()));
                 return false;
             }
 
             if (card.getSuit() == null) {
-                Log.error("Invalid card suit: [" + cardString + "], valid suits are: " + Arrays.toString(Suit.values()));
+                Log.error("Player " + playerNumber + " invalid card suit: " + cardString + ", valid suits are: " + Arrays.toString(Suit.values()));
                 return false;
             }
         }
         return true;
     }
+
 }

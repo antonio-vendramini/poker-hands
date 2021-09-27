@@ -36,7 +36,7 @@ public class HandRank {
     private Card[] handValuableCards;
     private String handValuableCardsString;
 
-    public static HandRank getHandRank(HandRankValue handRankValue, Card... handValuableCards){
+    public static HandRank getHandRank(HandRankValue handRankValue, Card... handValuableCards) {
         HandRank handRank = new HandRank();
         handRank.setHandRankValue(handRankValue);
         handRank.setHandValuableCards(handValuableCards);
@@ -72,9 +72,9 @@ public class HandRank {
         return getHandValuableCards()[0];
     }
 
-    private static String calculateHandValuableCardsString(Card... handValuableCards){
+    private static String calculateHandValuableCardsString(Card... handValuableCards) {
         StringBuilder handValuableCardsString = new StringBuilder();
-        for (Card card:handValuableCards){
+        for (Card card : handValuableCards) {
             handValuableCardsString.append(card.getCardRank().getValue());
         }
 

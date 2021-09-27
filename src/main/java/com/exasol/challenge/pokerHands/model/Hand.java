@@ -11,17 +11,16 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.FLUSH;
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.FOUR_OF_A_KIND;
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.FULL_HOUSE;
 import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.HIGH_CARD;
 import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.ONE_PAIR;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.TWO_PAIRS;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.THREE_OF_A_KIND;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.STRAIGHT;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.FLUSH;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.FULL_HOUSE;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.FOUR_OF_A_KIND;
-import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.STRAIGHT_FLUSH;
 import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.ROYAL_FLUSH;
-
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.STRAIGHT;
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.STRAIGHT_FLUSH;
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.THREE_OF_A_KIND;
+import static com.exasol.challenge.pokerHands.model.HandRank.HandRankValue.TWO_PAIRS;
 import static com.exasol.challenge.pokerHands.model.HandRank.getHandRank;
 
 public class Hand implements Comparable<Hand> {
@@ -74,10 +73,10 @@ public class Hand implements Comparable<Hand> {
     }
 
     private int compareValuableCards(Hand other) {
-        for (int i=0; i< this.getRank().getHandValuableCards().length; i++){
+        for (int i = 0; i < this.getRank().getHandValuableCards().length; i++) {
             final int thisCardWeight = this.getRank().getHandValuableCards()[i].getCardRank().getWeight();
             final int otherCardWeight = other.getRank().getHandValuableCards()[i].getCardRank().getWeight();
-            if (thisCardWeight != otherCardWeight){
+            if (thisCardWeight != otherCardWeight) {
                 return Integer.compare(thisCardWeight, otherCardWeight);
             }
         }
@@ -157,7 +156,7 @@ public class Hand implements Comparable<Hand> {
         Card[] calculatedCards = new Card[4];
 
         int i = 3;
-        for (Card card:cards) {
+        for (Card card : cards) {
             if (valuesCount.get(card) == 2) {
                 calculatedCards[0] = card;
             } else {
@@ -173,14 +172,14 @@ public class Hand implements Comparable<Hand> {
         Card[] calculatedCards = new Card[3];
 
         int i = 1;
-        for (Card card:cards) {
+        for (Card card : cards) {
             if (valuesCount.get(card) == 1) {
                 calculatedCards[2] = card;
             } else {
-                if (calculatedCards[i]==null || calculatedCards[i]!=null && calculatedCards[i].getCardRank().getWeight() == card.getCardRank().getWeight()){
+                if (calculatedCards[i] == null || calculatedCards[i] != null && calculatedCards[i].getCardRank().getWeight() == card.getCardRank().getWeight()) {
                     calculatedCards[i] = card;
                 } else {
-                       i--;
+                    i--;
                 }
             }
         }

@@ -6,10 +6,6 @@ public class Log {
         System.out.println(log);
     }
 
-    public static void warning(String log) {
-        System.out.println(log);
-    }
-
     public static void error(String log) {
         System.err.println(log);
     }
