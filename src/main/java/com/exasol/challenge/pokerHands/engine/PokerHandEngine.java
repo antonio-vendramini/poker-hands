@@ -106,7 +106,8 @@ public class PokerHandEngine {
 
             if (cards.length < CARD_HAND_CARD_NUMBER ||
                     cards[CARD_HAND_CARD_NUMBER - 1].length() > 2) {
-                Log.error("An hand must be made of exactly " + CARD_HAND_CARD_NUMBER + " cards: [" + arg + "]");
+                Log.error("Player " + playerNumber + ": an hand must be made of exactly " +
+                        CARD_HAND_CARD_NUMBER + " cards; you provided this " + arg);
                 return false;
             }
 

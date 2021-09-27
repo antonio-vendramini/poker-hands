@@ -66,11 +66,23 @@ public class PokerHandEngineTest {
     }
 
     @Test
-    public void shouldFailCardValidation() {
-        PokerHandEngine pokerHandEngine = new PokerHandEngine();
-        List<Hand> ranking = pokerHandEngine.calculateHand(new String[]{"1C 8S 9D KD AS", "7D 8H 9H KS AD", "KD 7S 4D 2H 3H"});
+    public void shouldFailCardRankValidation() {
+        failCardsValidation("1C 8S 9D KD AS", "7D 8H 9H KS AD", "KD 7S 4D 2H 3H");
+    }
 
-        assertEquals(0, ranking.size());
+    @Test
+    public void shouldFailCardSuitValidation() {
+        failCardsValidation("2C 8S 9D KD AS", "7D 8H 9H KS AD", "Kw 7S 4D 2H 3H");
+    }
+
+    @Test
+    public void shouldFailHandValidationOneCardMore() {
+        failCardsValidation("2C 8S 9D KD AS", "7D 8H 9H KS AD 3C", "Kw 7S 4D 2H 3H");
+    }
+
+    @Test
+    public void shouldFailHandValidationOneCardLess() {
+        failCardsValidation("2C 8S 9D KD AS", "7D 8H 9H KS AD", "KH 7S 4D 2H");
     }
 
     private void playAndCheckUniqueWinner(int expectedWinner, String... cardsHand) {
@@ -88,6 +100,13 @@ public class PokerHandEngineTest {
 
         assertEquals(expectedNumberOfWinners, winners.size());
 
+    }
+
+    private void failCardsValidation(String... cardsHand){
+        PokerHandEngine pokerHandEngine = new PokerHandEngine();
+        List<Hand> ranking = pokerHandEngine.calculateHand(cardsHand);
+
+        assertEquals(0, ranking.size());
     }
 
 }
