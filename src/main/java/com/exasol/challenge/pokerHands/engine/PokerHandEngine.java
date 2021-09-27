@@ -2,12 +2,20 @@ package com.exasol.challenge.pokerHands.engine;
 
 import com.exasol.challenge.pokerHands.log.Log;
 import com.exasol.challenge.pokerHands.model.Card;
+import com.exasol.challenge.pokerHands.model.CardRank;
 import com.exasol.challenge.pokerHands.model.Hand;
+import com.exasol.challenge.pokerHands.model.Suit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.exasol.challenge.pokerHands.model.Hand.CARD_HAND_CARD_NUMBER;
+import static com.exasol.challenge.pokerHands.model.Hand.CARD_HAND_SEPARATOR;
 
 public class PokerHandEngine {
 
@@ -87,28 +95,50 @@ public class PokerHandEngine {
             return false;
         }
 
+        Map<String, Integer> cardsRepetition = new HashMap<>();
+
         for (String arg : args) {
-            return validateHandCards(arg);
+
+            final String[] cards = arg.split(CARD_HAND_SEPARATOR, CARD_HAND_CARD_NUMBER);
+
+            if (cards.length < CARD_HAND_CARD_NUMBER ||
+                    cards[CARD_HAND_CARD_NUMBER - 1].length() > 2) {
+                Log.error("An hand must be made of exactly " + CARD_HAND_CARD_NUMBER + " cards: [" + arg + "]");
+                return false;
+            }
+
+            final String[] handStringSplit = arg.split(CARD_HAND_SEPARATOR, CARD_HAND_CARD_NUMBER);
+
+            if (!validateHandCards(handStringSplit) || !validateHandCardsRepetition(cardsRepetition, handStringSplit)) {
+                return false;
+            }
         }
 
         return true;
     }
 
-    private boolean validateHandCards(String handString) {
-        final String[] cards = handString.split(Hand.CARD_HAND_SEPARATOR, Hand.CARD_HAND_CARD_NUMBER);
-        if (cards.length < Hand.CARD_HAND_CARD_NUMBER ||
-                cards[Hand.CARD_HAND_CARD_NUMBER - 1].length() > 2) {
-            Log.error("An hand must be made of exactly " + Hand.CARD_HAND_CARD_NUMBER + " cards: [" + handString + "]");
-            return false;
-        }
-        for (String cardString : handString.split(Hand.CARD_HAND_SEPARATOR, Hand.CARD_HAND_CARD_NUMBER)) {
-            final Card card = Card.getCard(cardString);
-            if (card.getCardRank() == null) {
-                Log.error("Invalid card rank: [" + cardString + "]");
+    private boolean validateHandCardsRepetition(Map<String, Integer> cardsRepetition, String[] handStringSplit) {
+        for (String cardString : handStringSplit) {
+            if (cardsRepetition.putIfAbsent(cardString, 1) != null) {
+                Log.error("The card is repeated in this hand: [" + cardString + "]");
                 return false;
             }
+        }
+        return true;
+    }
+
+    private boolean validateHandCards(String[] handStringSplit) {
+
+        for (String cardString : handStringSplit) {
+            final Card card = Card.getCard(cardString);
+
+            if (card.getCardRank() == null) {
+                Log.error("Invalid card rank: [" + cardString + "], valid ranks are: " + Arrays.toString(CardRank.values()));
+                return false;
+            }
+
             if (card.getSuit() == null) {
-                Log.error("Invalid card suit: [" + cardString + "]");
+                Log.error("Invalid card suit: [" + cardString + "], valid suits are: " + Arrays.toString(Suit.values()));
                 return false;
             }
         }

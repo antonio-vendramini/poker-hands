@@ -53,4 +53,5 @@ public enum CardRank {
     public String toString() {
         return capitalize(this.name());
     }
+
 }

@@ -22,17 +22,17 @@ public class PokerHandEngineTest {
 
     @Test
     public void shouldChooseTheHighestCardInTwoPairsUnordered() {
-        playAndCheckUniqueWinner(1, "2D 2C 9D 9C JC", "2S 2H 3D 9D 9S");
+        playAndCheckUniqueWinner(1, "2D 2C 9H 9C JC", "2S 2H 3D 9D 9S");
     }
 
     @Test
     public void shouldChooseTheFirstBestPairInTwoPairs() {
-        playAndCheckUniqueWinner(1, "7D AD 8S AS 7C", "8S KS 9D 8H KD");
+        playAndCheckUniqueWinner(1, "7D AD 8D AS 7C", "8S KS 9D 8H KD");
     }
 
     @Test
     public void shouldChooseTheSecondBestPairInTwoPairs() {
-        playAndCheckUniqueWinner(2, "7D AD 8S AS 7C", "8S AC 9D 8H AH");
+        playAndCheckUniqueWinner(2, "7D AD 8D AS 7C", "8S AC 9D 8H AH");
     }
 
     @Test
@@ -42,27 +42,27 @@ public class PokerHandEngineTest {
 
     @Test
     public void shouldHaveTwoTieInTwoPairs() {
-        playAndCheckTie(2, "7D 7C 9S AD AS", "7S 7H 9D AC AH", "2H 3H 4D 7S KD");
+        playAndCheckTie(2, "7D 7C 9S AD AS", "7H 7S 9D AC AH", "2H 3H 4D 6S KD");
     }
 
     @Test
     public void shouldChooseTheFirstPairInOnePairs() {
-        playAndCheckUniqueWinner(1, "7C 8S 9D AD AS", "9D QS QH KC AH", "2H 3H 4D 7S KD");
+        playAndCheckUniqueWinner(1, "7C 8S 9C AD AS", "9D QS QH KC AH", "2H 3H 4D 7S KD");
     }
 
     @Test
     public void shouldChooseTheHighestCardInOnePair() {
-        playAndCheckUniqueWinner(2, "9C JS QD AD AS", "2D 3H KC AC AH", "2H 3H 4D 7S KD");
+        playAndCheckUniqueWinner(2, "9C JS QD AD AS", "2D 3D KC AC AH", "2H 3H 4D 7S KD");
     }
 
     @Test
     public void shouldChooseTheHighestCardInHighCard() {
-        playAndCheckUniqueWinner(2, "9D KD 8S AS 7C", "AC KC 9D QH AH", "KD 7S 4D 2H 3H");
+        playAndCheckUniqueWinner(2, "9C KH 8S AS 7C", "AC KC 9D QH AH", "KD 7S 4D 2H 3H");
     }
 
     @Test
     public void shouldHaveTwoTiesInHighCard() {
-        playAndCheckTie(2, "7C 8S 9D KD AS", "7D 8H 9H KS AD", "KD 7S 4D 2H 3H");
+        playAndCheckTie(2, "7C 8S 9D KD AS", "7D 8H 9H KS AD", "KH 7S 4D 2H 3H");
     }
 
 //    @Test

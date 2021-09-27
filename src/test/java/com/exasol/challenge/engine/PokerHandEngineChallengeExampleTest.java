@@ -22,17 +22,17 @@ public class PokerHandEngineChallengeExampleTest {
 
     @Test
     public void challengeExampleTwo() {
-        playAndCheckWinner(1, "5D 8C 9S JS AC", "2C 5C 7D 8S QH", "2C 5C 7D 8S KH");
+        playAndCheckWinner(1, "5D 8C 9S JS AC", "2D 5C 7D 8S QH", "2C 5H 7S 8D KH");
     }
 
     @Test
     public void challengeExampleThree() {
-        playAndCheckWinner(2, "2D 9C AS AH AC", "3D 6D 7D TD QD", "2C 5C 7D 8S QH");
+        playAndCheckWinner(2, "2D 9C AS AH AC", "3D 6D 7D TD QD", "2C 5C 7C 8S QH");
     }
 
     @Test
     public void challengeExampleFour() {
-        playAndCheckWinner(1, "4D 6S 9H QH QC", "3D 6D 7H QD QS", "2C 5C 7D 8S QH");
+        playAndCheckWinner(1, "4D 6S 9H QH QC", "3D 6D 7H QD QS", "2C 5C 7D 8S KS");
     }
 
     @Test
